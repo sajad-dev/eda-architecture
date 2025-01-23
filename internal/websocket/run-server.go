@@ -3,49 +3,24 @@ package websocket
 import (
 	"net/http"
 	"os"
-	"sync"
 
-	"github.com/gorilla/websocket"
 	"github.com/sajad-dev/eda-architecture/internal/exception"
 )
 
-type Websocket struct {
-	middlewareBase []MiddlewareFuncType
-	serverMux      *CustomServeMux
-}
-
-type Addr struct {
-	Pattern        string
-	Handler        HandelFuncType
-	MiddlewareList []MiddlewareFuncType
-}
-
-type CustomServeMux struct {
-	mux *http.ServeMux
-	mu  sync.RWMutex
-}
-
-var Upgrader = websocket.Upgrader{
-	CheckOrigin: func(r *http.Request) bool {
-		return true
-	},
-}
 
 func NewCustomServeMux() *CustomServeMux {
 	return &CustomServeMux{
-		mux: http.NewServeMux(),
+		Mux: http.NewServeMux(),
 	}
 }
 
-type HandelFuncType func(w http.ResponseWriter, r *http.Request)
-type MiddlewareFuncType func(http.Handler) http.Handler
 
 func (ws *Websocket) Middleware(middlewareList []MiddlewareFuncType, handelFunc HandelFuncType) http.Handler {
-	ws.serverMux.mu.Lock()
-	defer ws.serverMux.mu.Unlock()
+	ws.ServerMux.Mu.Lock()
+	defer ws.ServerMux.Mu.Unlock()
 	var handler http.Handler
-	handler = http.HandlerFunc(handelFunc)
-	for _, middleware := range ws.middlewareBase {
+	handler = http.HandlerFunc(WebSocketHandler(ws, handelFunc))
+	for _, middleware := range ws.MiddlewareBase {
 		handler = middleware(handler)
 	}
 	for _, middleware := range middlewareList {
@@ -54,10 +29,16 @@ func (ws *Websocket) Middleware(middlewareList []MiddlewareFuncType, handelFunc 
 	return handler
 }
 
+func WebSocketHandler(ws *Websocket, handlerFunc func(http.ResponseWriter, *http.Request, *Websocket)) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		handlerFunc(w, r, ws)
+	}
+}
+
 func (ws *Websocket) AddAddr(handlerFunc http.Handler, pattern string) {
-	ws.serverMux.mu.Lock()
-	defer ws.serverMux.mu.Unlock()
-	ws.serverMux.mux.Handle(pattern, handlerFunc)
+	ws.ServerMux.Mu.Lock()
+	defer ws.ServerMux.Mu.Unlock()
+	ws.ServerMux.Mux.Handle(pattern, handlerFunc)
 }
 
 func (ws *Websocket) RunServer() {
@@ -70,11 +51,11 @@ func (ws *Websocket) RunServer() {
 
 func Handler(addrs []Addr) Websocket {
 	csm := NewCustomServeMux()
-	ws := Websocket{middlewareBase: []MiddlewareFuncType{UpgraderMiddleware},
-		serverMux: csm}
+	ws := Websocket{MiddlewareBase: []MiddlewareFuncType{},
+		ServerMux: csm}
 
 	for _, addr := range addrs {
-		ws.AddAddr(ws.Middleware(addr.MiddlewareList, addr.Handler),
+		ws.AddAddr(ws.Middleware(addr.MiddlewareList, HandelFuncType(addr.Handler)),
 			addr.Pattern)
 	}
 
