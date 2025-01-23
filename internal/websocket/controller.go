@@ -8,6 +8,7 @@ import (
 	"github.com/sajad-dev/eda-architecture/internal/exception"
 )
 
+
 func HandlerFunc(w http.ResponseWriter, r *http.Request, ws *Websocket) {
 	conn, err := Upgrader.Upgrade(w, r, nil)
 	exception.Log(err)
@@ -29,8 +30,9 @@ func HandlerFunc(w http.ResponseWriter, r *http.Request, ws *Websocket) {
 			}
 		}
 	}()
-
 }
+
+
 
 type AddChannel struct {
 	Name string `json:"name"`
@@ -42,5 +44,5 @@ func AddSocketChannel(w http.ResponseWriter, r *http.Request, ws *Websocket) {
 	var addChannel AddChannel
 	json.NewDecoder(r.Body).Decode(&addChannel)
 	ws.AddAddr(WebSocketHandler(ws, HandlerFunc), fmt.Sprintf("/%s", addChannel.Name))
-	
+
 }
