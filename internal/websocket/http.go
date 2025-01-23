@@ -39,21 +39,31 @@ func WebSocketHandler(ws *Websocket, handlerFunc func(http.ResponseWriter, *http
 func (ws *Websocket) AddAddr(handlerFunc http.Handler, pattern string) {
 	ws.ServerMux.Mu.Lock()
 	defer ws.ServerMux.Mu.Unlock()
-	fmt.Println("AddAddr", pattern)
 	ws.ServerMux.Mux.Handle(pattern, handlerFunc)
 }
 
 func (ws *Websocket) RunServer(waitGroup sync.WaitGroup) {
 	go func() {
 		defer waitGroup.Done()
-		err := http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("PORT")), ws.ServerMux.Mux)
+		err := http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("WEBSOCKET_PORT")), ws.ServerMux.Mux)
+		exception.Log(err)
+	}()
+}
+
+func WebServer(waitGroup sync.WaitGroup, ws *Websocket) {
+	
+	go func() {
+		
+		defer waitGroup.Done()
+		http.HandleFunc("/add-channel", WebSocketHandler(ws, AddSocketChannel))
+		err := http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("PORT")), nil)
 		exception.Log(err)
 	}()
 }
 
 func Handler(addrs []Addr) (Websocket, sync.WaitGroup) {
 	var waitGroup sync.WaitGroup
-	waitGroup.Add(1)
+	waitGroup.Add(2)
 
 	csm := NewCustomServeMux()
 	ws := Websocket{MiddlewareBase: []MiddlewareFuncType{},
@@ -66,6 +76,7 @@ func Handler(addrs []Addr) (Websocket, sync.WaitGroup) {
 	}
 
 	ws.RunServer(waitGroup)
+	WebServer(waitGroup, &ws)
 
 	return ws, waitGroup
 }
