@@ -2,6 +2,7 @@ package websocket
 
 import (
 	"net/http"
+	"os"
 	"sync"
 
 	"github.com/gorilla/websocket"
@@ -62,7 +63,7 @@ func (ws *Websocket) AddAddr(handlerFunc http.Handler, pattern string) {
 func (ws *Websocket) RunServer() {
 	go func() {
 
-		err := http.ListenAndServe(":8080", nil)
+		err := http.ListenAndServe(os.Getenv("PORT"), nil)
 		exception.Log(err)
 	}()
 }
