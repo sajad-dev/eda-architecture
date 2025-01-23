@@ -2,12 +2,15 @@ package websocket
 
 import (
 	"net/http"
+	"sync"
 
 	"github.com/gorilla/websocket"
+	"github.com/sajad-dev/eda-architecture/internal/exception"
 )
 
 type Websocket struct {
 	middlewareBase []MiddlewareFuncType
+	serverMux      *CustomServeMux
 }
 
 type Addr struct {
@@ -16,19 +19,32 @@ type Addr struct {
 	MiddlewareList []MiddlewareFuncType
 }
 
+type CustomServeMux struct {
+	mux *http.ServeMux
+	mu  sync.RWMutex
+}
+
 var Upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
 		return true
 	},
 }
 
+func NewCustomServeMux() *CustomServeMux {
+	return &CustomServeMux{
+		mux: http.NewServeMux(),
+	}
+}
+
 type HandelFuncType func(w http.ResponseWriter, r *http.Request)
 type MiddlewareFuncType func(http.Handler) http.Handler
 
-func (w *Websocket) Middleware(middlewareList []MiddlewareFuncType, handelFunc HandelFuncType) http.Handler {
+func (ws *Websocket) Middleware(middlewareList []MiddlewareFuncType, handelFunc HandelFuncType) http.Handler {
+	ws.serverMux.mu.Lock()
+	defer ws.serverMux.mu.Unlock()
 	var handler http.Handler
 	handler = http.HandlerFunc(handelFunc)
-	for _, middleware := range w.middlewareBase {
+	for _, middleware := range ws.middlewareBase {
 		handler = middleware(handler)
 	}
 	for _, middleware := range middlewareList {
@@ -37,23 +53,31 @@ func (w *Websocket) Middleware(middlewareList []MiddlewareFuncType, handelFunc H
 	return handler
 }
 
-func (w *Websocket) AddAddr(handlerFunc http.Handler, pattern string) {
-	http.Handle("", handlerFunc)
+func (ws *Websocket) AddAddr(handlerFunc http.Handler, pattern string) {
+	ws.serverMux.mu.Lock()
+	defer ws.serverMux.mu.Unlock()
+	ws.serverMux.mux.Handle(pattern, handlerFunc)
 }
 
-func (w *Websocket) RunServer() {
+func (ws *Websocket) RunServer() {
+	go func() {
 
-	http.HandleFunc("", nil)
+		err := http.ListenAndServe(":8080", nil)
+		exception.Log(err)
+	}()
 }
 
-func Handler(addrs []Addr) {
-	ws := Websocket{middlewareBase: []MiddlewareFuncType{UpgraderMiddleware}}
+func Handler(addrs []Addr) Websocket {
+	csm := NewCustomServeMux()
+	ws := Websocket{middlewareBase: []MiddlewareFuncType{UpgraderMiddleware},
+		serverMux: csm}
 
 	for _, addr := range addrs {
 		ws.AddAddr(ws.Middleware(addr.MiddlewareList, addr.Handler),
 			addr.Pattern)
 	}
-	
 
 	ws.RunServer()
+
+	return ws
 }
