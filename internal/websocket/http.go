@@ -1,19 +1,20 @@
 package websocket
 
 import (
+	"fmt"
 	"net/http"
 	"os"
+	"sync"
 
+	"github.com/gorilla/websocket"
 	"github.com/sajad-dev/eda-architecture/internal/exception"
 )
-
 
 func NewCustomServeMux() *CustomServeMux {
 	return &CustomServeMux{
 		Mux: http.NewServeMux(),
 	}
 }
-
 
 func (ws *Websocket) Middleware(middlewareList []MiddlewareFuncType, handelFunc HandelFuncType) http.Handler {
 	ws.ServerMux.Mu.Lock()
@@ -38,28 +39,33 @@ func WebSocketHandler(ws *Websocket, handlerFunc func(http.ResponseWriter, *http
 func (ws *Websocket) AddAddr(handlerFunc http.Handler, pattern string) {
 	ws.ServerMux.Mu.Lock()
 	defer ws.ServerMux.Mu.Unlock()
+	fmt.Println("AddAddr", pattern)
 	ws.ServerMux.Mux.Handle(pattern, handlerFunc)
 }
 
-func (ws *Websocket) RunServer() {
+func (ws *Websocket) RunServer(waitGroup sync.WaitGroup) {
 	go func() {
-
-		err := http.ListenAndServe(os.Getenv("PORT"), nil)
+		defer waitGroup.Done()
+		err := http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("PORT")), ws.ServerMux.Mux)
 		exception.Log(err)
 	}()
 }
 
-func Handler(addrs []Addr) Websocket {
+func Handler(addrs []Addr) (Websocket, sync.WaitGroup) {
+	var waitGroup sync.WaitGroup
+	waitGroup.Add(1)
+
 	csm := NewCustomServeMux()
 	ws := Websocket{MiddlewareBase: []MiddlewareFuncType{},
-		ServerMux: csm}
+		Subscriber: map[string][]*websocket.Conn{},
+		ServerMux:  *csm}
 
 	for _, addr := range addrs {
 		ws.AddAddr(ws.Middleware(addr.MiddlewareList, HandelFuncType(addr.Handler)),
 			addr.Pattern)
 	}
 
-	ws.RunServer()
+	ws.RunServer(waitGroup)
 
-	return ws
+	return ws, waitGroup
 }

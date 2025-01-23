@@ -10,11 +10,10 @@ import (
 type HandelFuncType func(w http.ResponseWriter, r *http.Request, ws *Websocket)
 type MiddlewareFuncType func(http.Handler) http.Handler
 
-
 type Websocket struct {
 	MiddlewareBase []MiddlewareFuncType
-	ServerMux      *CustomServeMux
-	Subscriber     map[string]*websocket.Conn
+	ServerMux      CustomServeMux
+	Subscriber     map[string][]*websocket.Conn
 }
 
 type Addr struct {
