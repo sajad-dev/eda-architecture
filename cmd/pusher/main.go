@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/joho/godotenv"
-	"github.com/sajad-dev/eda-architecture/internal/exception"
-	"github.com/sajad-dev/eda-architecture/internal/websocket"
+	"github.com/sajad-dev/eda-architecture/pkg/exception"
+	"github.com/sajad-dev/eda-architecture/pkg/websocket"
 )
 
 func main() {

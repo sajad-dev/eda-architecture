@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/sajad-dev/eda-architecture/internal/exception"
+	"github.com/sajad-dev/eda-architecture/pkg/exception"
 )
-
 
 func HandlerFunc(w http.ResponseWriter, r *http.Request, ws *Websocket) {
 	conn, err := Upgrader.Upgrade(w, r, nil)
 	exception.Log(err)
+	// defer conn.Close()
 
 	ws.ServerMux.Mu.Lock()
 	ws.Subscriber[r.URL.Path] = append(ws.Subscriber[r.URL.Path], conn)
 	ws.ServerMux.Mu.Unlock()
 
 	go func() {
-
 		for {
 			_, msg, err := conn.ReadMessage()
 			exception.Log(err)
+			fmt.Println(string(msg))
 			for _, subscriber := range ws.Subscriber[r.URL.Path] {
 				if subscriber != conn {
 					err := subscriber.WriteMessage(1, msg)
@@ -32,8 +32,6 @@ func HandlerFunc(w http.ResponseWriter, r *http.Request, ws *Websocket) {
 	}()
 }
 
-
-
 type AddChannel struct {
 	Name string `json:"name"`
 }
@@ -42,7 +40,8 @@ func AddSocketChannel(w http.ResponseWriter, r *http.Request, ws *Websocket) {
 	w.Header().Set("Content-Type", "application/json")
 
 	var addChannel AddChannel
-	json.NewDecoder(r.Body).Decode(&addChannel)
+	err := json.NewDecoder(r.Body).Decode(&addChannel)
+	exception.Log(err)
 	ws.AddAddr(WebSocketHandler(ws, HandlerFunc), fmt.Sprintf("/%s", addChannel.Name))
 
 }
