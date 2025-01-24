@@ -16,11 +16,31 @@ func HandlerFunc(w http.ResponseWriter, r *http.Request, ws *Websocket) {
 	ws.ServerMux.Mu.Lock()
 	ws.Subscriber[r.URL.Path] = append(ws.Subscriber[r.URL.Path], conn)
 	ws.ServerMux.Mu.Unlock()
-
+	for _, subscriber := range ws.Subscriber[r.URL.Path] {
+		if subscriber != conn {
+			err := subscriber.WriteMessage(1, []byte("new-subscriber"))
+			if err != nil {
+				conn.Close()
+				exception.Log(err)
+				break
+			}
+		}
+	}
 	go func() {
+		defer conn.Close()
 		for {
+
 			_, msg, err := conn.ReadMessage()
-			exception.Log(err)
+			if err != nil {
+				exception.Log(err)
+				fmt.Println(ws.Subscriber)
+
+				i := len(ws.Subscriber[r.URL.Path])
+				ws.Subscriber[r.URL.Path] = ws.Subscriber[r.URL.Path][:i-1]
+				conn.Close()
+				fmt.Println(ws.Subscriber)
+				break
+			}
 			fmt.Println(string(msg))
 			for _, subscriber := range ws.Subscriber[r.URL.Path] {
 				if subscriber != conn {
