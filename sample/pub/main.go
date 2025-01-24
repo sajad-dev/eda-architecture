@@ -23,7 +23,7 @@ func data(upd chan int) string {
 
 func main() {
 
-	jsonStr := []byte(`{name: 'new-channel'}`)
+	jsonStr := []byte("{name: 'new-channel'}")
 	req, err := http.NewRequest("POST", "http://127.0.0.1:8080/add-channel", bytes.NewBuffer(jsonStr))
 	exception.Log(err)
 
@@ -57,11 +57,11 @@ func main() {
 			}
 
 			select {
+			case <-done:
+				break
 			case <-upd:
 				err := c.WriteMessage(websocket.TextMessage, []byte(data(upd)))
 				exception.Log(err)
-			case <-done:
-				break
 			}
 		}
 	}()

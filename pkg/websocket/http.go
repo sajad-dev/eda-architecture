@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"sync"
 
 	"github.com/gorilla/websocket"
 	"github.com/sajad-dev/eda-architecture/pkg/exception"
@@ -42,28 +41,22 @@ func (ws *Websocket) AddAddr(handlerFunc http.Handler, pattern string) {
 	ws.ServerMux.Mux.Handle(pattern, handlerFunc)
 }
 
-func (ws *Websocket) RunServer(waitGroup sync.WaitGroup) {
-	go func() {
-		defer waitGroup.Done()
-		err := http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("WEBSOCKET_PORT")), ws.ServerMux.Mux)
-		exception.Log(err)
-	}()
+func (ws *Websocket) RunServer() {
+	err := http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("WEBSOCKET_PORT")), ws.ServerMux.Mux)
+	exception.Log(err)
 }
 
-func WebServer(waitGroup sync.WaitGroup, ws *Websocket) {
-	
+func WebServer(ws *Websocket) {
+
 	go func() {
-		
-		defer waitGroup.Done()
+
 		http.HandleFunc("/add-channel", WebSocketHandler(ws, AddSocketChannel))
 		err := http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("PORT")), nil)
 		exception.Log(err)
 	}()
 }
 
-func Handler(addrs []Addr) (Websocket, sync.WaitGroup) {
-	var waitGroup sync.WaitGroup
-	waitGroup.Add(2)
+func Handler(addrs []Addr) Websocket {
 
 	csm := NewCustomServeMux()
 	ws := Websocket{MiddlewareBase: []MiddlewareFuncType{},
@@ -75,8 +68,8 @@ func Handler(addrs []Addr) (Websocket, sync.WaitGroup) {
 			addr.Pattern)
 	}
 
-	ws.RunServer(waitGroup)
-	WebServer(waitGroup, &ws)
+	WebServer(&ws)
+	ws.RunServer()
 
-	return ws, waitGroup
+	return ws
 }
