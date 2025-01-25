@@ -1,6 +1,7 @@
 package runserver
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 
@@ -9,6 +10,7 @@ import (
 )
 
 func Run() {
+	fmt.Println("Server is running on port 8000")
 	err := http.ListenAndServe(":8000", nil)
 	exception.Log(err)
 	if !helpers.IfThenElse(os.Getenv("DEBUG") == "true", true, false).(bool) {

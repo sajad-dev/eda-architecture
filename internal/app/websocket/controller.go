@@ -1,7 +1,6 @@
 package websocket
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -12,6 +11,7 @@ func HandlerFunc(w http.ResponseWriter, r *http.Request, ws *Websocket) {
 	conn, err := Upgrader.Upgrade(w, r, nil)
 	exception.Log(err)
 	secret := r.Header.Get("secret_key")
+
 	// defer conn.Close()
 
 	ws.ServerMux.Mu.Lock()
@@ -28,7 +28,7 @@ func HandlerFunc(w http.ResponseWriter, r *http.Request, ws *Websocket) {
 			}
 		}
 	}
-	if !checkPrivateKey(secret, r.URL.Path) {
+	if !checkPrivateKey(secret, r.URL.Path[1:]) {
 		return
 	}
 	go func() {
@@ -61,12 +61,12 @@ type AddChannel struct {
 	Name string `json:"name"`
 }
 
-func AddSocketChannel(w http.ResponseWriter, r *http.Request, ws *Websocket) {
-	w.Header().Set("Content-Type", "application/json")
+// func AddSocketChannel(w http.ResponseWriter, r *http.Request, ws *Websocket) {
+// 	w.Header().Set("Content-Type", "application/json")
 
-	var addChannel AddChannel
-	err := json.NewDecoder(r.Body).Decode(&addChannel)
-	exception.Log(err)
-	ws.AddAddr(WebSocketHandler(ws, HandlerFunc), fmt.Sprintf("/%s", addChannel.Name))
+// 	var addChannel AddChannel
+// 	err := json.NewDecoder(r.Body).Decode(&addChannel)
+// 	exception.Log(err)
+// 	ws.AddAddr(WebSocketHandler(ws, HandlerFunc), fmt.Sprintf("/%s", addChannel.Name))
 
-}
+// }

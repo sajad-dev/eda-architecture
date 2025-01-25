@@ -15,7 +15,7 @@ func AddChannel(w http.ResponseWriter, r *http.Request) {
 	model.Insert(map[string]string{
 		"public_key": public,
 		"secret_key": secret,
-	}, "channel")
+	}, "channels")
 	w.Write([]byte(fmt.Sprintf(`{
 	public_key: %s,
 	secret_key: %s

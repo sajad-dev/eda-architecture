@@ -48,7 +48,7 @@ func (ws *Websocket) RunServer() {
 }
 
 func getAddress() model.GetOutput {
-	return model.Get([]string{"public_key"}, "channel", []model.Where_st{}, "id", true)
+	return model.Get([]string{"public_key"}, "channels", []model.Where_st{}, "id", true)
 }
 
 func Handler(addrs []Addr) Websocket {
@@ -60,7 +60,7 @@ func Handler(addrs []Addr) Websocket {
 
 	for _, addr := range getAddress() {
 		ws.AddAddr(ws.Middleware([]MiddlewareFuncType{}, HandelFuncType(HandlerFunc)),
-			addr["public_key"])
+			"/"+addr["public_key"])
 	}
 
 	ws.RunServer()

@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 
+	"github.com/fatih/color"
 	"github.com/sajad-dev/eda-architecture/internal/app/websocket"
 	"github.com/sajad-dev/eda-architecture/internal/command"
 	connectiondb "github.com/sajad-dev/eda-architecture/internal/database/connection_db"
@@ -27,7 +28,11 @@ func main() {
 		command.Handel(os.Args)
 		return
 	}
-	websocket.Handler([]websocket.Addr{})
+	color.Blue("Adress Local : http://127.0.0.1:8000")
+
+	go func() {
+		websocket.Handler([]websocket.Addr{})
+	}()
 	migration.Handel()
 	api.RouteRun()
 
