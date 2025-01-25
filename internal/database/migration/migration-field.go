@@ -168,9 +168,9 @@ func defaultValueConstraint(value string, nullable bool) string {
 	return fmt.Sprintf("'%s'", value)
 }
 
-func Forgin(name string,table string, nullable bool, tableForgin string, field_table string, cascade_ondelete string, cascade_onupdate string) string {
+func Forgin(name string,table string, nullable bool, table_forgin string, field_table string, cascade_ondelete string, cascade_onupdate string) string {
 
-	return fmt.Sprintf(" %s INT %s , CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s(%s) ON DELETE %s ON UPDATE %s", name, nullConstraint(nullable), fmt.Sprintf("%s_%s_fg",table,name), name, tableForgin, field_table, cascade_ondelete, cascade_onupdate)
+	return fmt.Sprintf(" %s INT %s , CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s(%s) ON DELETE %s ON UPDATE %s", name, nullConstraint(nullable), fmt.Sprintf("%s_%s_fg",table,name), name, table_forgin, field_table, cascade_ondelete, cascade_onupdate)
 }
 func IntPrimary(name string, increment bool) string {
 	getincrement := ""

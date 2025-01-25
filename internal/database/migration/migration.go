@@ -16,7 +16,7 @@ type MigrateFunc func() []string
 
 type Migrate struct {
 	Table     string
-	Funcation MigrateFunc
+	Function MigrateFunc
 }
 
 type Migration struct {
@@ -74,11 +74,11 @@ WHERE table_schema = '%s';
 			err = qu.Scan(&field, &fieldtype, &collection, &null, &key, &defult, &extra, &privileges, &comment)
 			exception.Log(err)
 
-			migrate.HandelUpdate(field, fieldtype, collection, null, defult, key, extra, privileges, comment, m.Funcation, m.Table, x)
+			migrate.HandelUpdate(field, fieldtype, collection, null, defult, key, extra, privileges, comment, m.Function, m.Table, x)
 			x++
 
 		}
-		strSlice := m.Funcation()
+		strSlice := m.Function()
 		if len(strSlice) > x {
 			for i := x; i < len(strSlice); i++ {
 				migrate.AddTable(strSlice[i], m.Table)

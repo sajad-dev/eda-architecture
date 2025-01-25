@@ -48,7 +48,7 @@ func TestMigrationTablesParams(t *testing.T) {
 		
 
 		for _, v := range mig.MigrateList {
-			rqfunc := v.Funcation()
+			rqfunc := v.Function()
 			if len(rqfunc) == 0 {
 				t.Fatal("Your migration not be empty")
 			}

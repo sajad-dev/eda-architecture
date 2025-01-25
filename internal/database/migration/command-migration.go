@@ -14,7 +14,7 @@ import (
 func CreateAll() {
 
 	for _, v := range ArrMigrations {
-		CreateTable(v.Funcation(), v.Table)
+		CreateTable(v.Function(), v.Table)
 	}
 }
 

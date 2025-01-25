@@ -22,4 +22,22 @@ var RouteList = []ApiType{
 		Controller:  controllers.AddChannel,
 		Middlewares: MiddlewaresListType{},
 	},
+	{
+		Pattern:     "/users",
+		Method:      "POST",
+		Controller:  controllers.AddChannel,
+		Middlewares: MiddlewaresListType{},
+	},
+		{
+		Pattern:     "/users",
+		Method:      "GET",
+		Controller:  controllers.Users,
+		Middlewares: MiddlewaresListType{},
+	},
+		{
+		Pattern:     "/users",
+		Method:      "DELETE",
+		Controller:  controllers.DeleteUser,
+		Middlewares: MiddlewaresListType{},
+	},
 }
