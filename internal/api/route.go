@@ -8,6 +8,7 @@ import (
 
 	"github.com/sajad-dev/eda-architecture/internal/exception"
 	"github.com/sajad-dev/eda-architecture/internal/middlewares"
+	publictypes "github.com/sajad-dev/eda-architecture/internal/public_types"
 )
 
 type methodType string
@@ -19,6 +20,7 @@ const (
 	PATCH  methodType = "PATCH"
 	DELETE methodType = "DELETE"
 )
+
 
 func CheckMethod(next http.Handler, method methodType) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -74,14 +76,14 @@ func GetDYRoute(pattern string) ([]string, string) {
 		}
 	}
 	if dy {
-		return slice_pat, rou +"/"
+		return slice_pat, rou + "/"
 
 	}
 	return slice_pat, rou
 }
-func Route(pattern string, method methodType, controller http.Handler, middlewaresList []func(http.Handler) http.Handler) {
+func Route(pattern string, method methodType, controller publictypes.ControllerType, middlewaresList []func(http.Handler) http.Handler) {
 	sli, route := GetDYRoute(pattern)
-	http.Handle(route,  middlewares.ConfigWriterAndReader(CheckMethod(DaynamicRoute(middlewares.Handler(middlewaresList,controller), sli), method)))
+	http.Handle(route, middlewares.ConfigWriterAndReader(CheckMethod(DaynamicRoute(middlewares.Handler(middlewaresList, controller), sli), method)))
 }
 
 func RouteRun() {

@@ -5,7 +5,7 @@ import (
 
 	"github.com/sajad-dev/eda-architecture/internal/command"
 	connectiondb "github.com/sajad-dev/eda-architecture/internal/connection_db"
-	"github.com/sajad-dev/eda-architecture/internal/http/api"
+	"github.com/sajad-dev/eda-architecture/internal/api"
 	"github.com/sajad-dev/eda-architecture/internal/migration"
 	runserver "github.com/sajad-dev/eda-architecture/internal/run-server"
 	"github.com/sajad-dev/eda-architecture/internal/websocket"
