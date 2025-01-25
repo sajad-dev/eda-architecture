@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/gorilla/websocket"
-	"github.com/sajad-dev/eda-architecture/pkg/exception"
+	"github.com/sajad-dev/eda-architecture/internal/exception"
 )
 
 func NewCustomServeMux() *CustomServeMux {
