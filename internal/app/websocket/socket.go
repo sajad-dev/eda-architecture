@@ -7,6 +7,7 @@ import (
 
 	"github.com/gorilla/websocket"
 	"github.com/sajad-dev/eda-architecture/internal/app/exception"
+	"github.com/sajad-dev/eda-architecture/internal/database/model"
 )
 
 func NewCustomServeMux() *CustomServeMux {
@@ -46,6 +47,9 @@ func (ws *Websocket) RunServer() {
 	exception.Log(err)
 }
 
+func getAddress() model.GetOutput {
+	return model.Get([]string{"public_key"}, "channel", []model.Where_st{}, "id", true)
+}
 
 func Handler(addrs []Addr) Websocket {
 
@@ -54,9 +58,9 @@ func Handler(addrs []Addr) Websocket {
 		Subscriber: map[string][]*websocket.Conn{},
 		ServerMux:  *csm}
 
-	for _, addr := range addrs {
-		ws.AddAddr(ws.Middleware(addr.MiddlewareList, HandelFuncType(addr.Handler)),
-			addr.Pattern)
+	for _, addr := range getAddress() {
+		ws.AddAddr(ws.Middleware([]MiddlewareFuncType{}, HandelFuncType(HandlerFunc)),
+			addr["public_key"])
 	}
 
 	ws.RunServer()

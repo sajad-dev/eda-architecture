@@ -1,42 +1,22 @@
 package utils
 
 import (
-	"crypto/rand"
-	"crypto/sha256"
-	"encoding/base64"
-	"log"
-	"os"
-	"regexp"
+	"math/rand"
+	"time"
 
-	"github.com/sajad-dev/eda-architecture/internal/app/exception"
-	"github.com/sajad-dev/eda-architecture/internal/app/helpers"
 )
 
-func IsValid(str string) bool {
-	validate := regexp.MustCompile("^[a-zA-Z0-9_]+$")
-	if !validate.MatchString(str) {
-		if !helpers.IfThenElse(os.Getenv("DEBUG") == "true", true, false).(bool) {
-			log.Panicln("Not a valid string")
-		}
-		return false
-	}
-	return true
+
+
+func GenerateRandomString(length int) string {
+    characters := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    rand.Seed(time.Now().UnixNano()) 
+
+    result := make([]byte, length)
+    for i := 0; i < length; i++ {
+        result[i] = characters[rand.Intn(len(characters))]
+    }
+    return string(result)
 }
 
-func GenerateToken() string {
-	const LENGTH int = 30
-
-	randomBytes := make([]byte, 30)
-	_, err := rand.Read(randomBytes)
-	exception.Log(err)
-	output := base64.StdEncoding.EncodeToString(randomBytes)
-	return output
-}
-
-func HashPassword(password string) string {
-	hash := sha256.New()
-	hash.Write([]byte(password))
-	pass := hash.Sum(nil)
-	return base64.StdEncoding.EncodeToString(pass)
-}
 

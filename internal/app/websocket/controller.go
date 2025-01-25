@@ -11,11 +11,13 @@ import (
 func HandlerFunc(w http.ResponseWriter, r *http.Request, ws *Websocket) {
 	conn, err := Upgrader.Upgrade(w, r, nil)
 	exception.Log(err)
+	secret := r.Header.Get("secret_key")
 	// defer conn.Close()
 
 	ws.ServerMux.Mu.Lock()
 	ws.Subscriber[r.URL.Path] = append(ws.Subscriber[r.URL.Path], conn)
 	ws.ServerMux.Mu.Unlock()
+
 	for _, subscriber := range ws.Subscriber[r.URL.Path] {
 		if subscriber != conn {
 			err := subscriber.WriteMessage(1, []byte("new-subscriber"))
@@ -25,6 +27,9 @@ func HandlerFunc(w http.ResponseWriter, r *http.Request, ws *Websocket) {
 				break
 			}
 		}
+	}
+	if !checkPrivateKey(secret, r.URL.Path) {
+		return
 	}
 	go func() {
 		defer conn.Close()
