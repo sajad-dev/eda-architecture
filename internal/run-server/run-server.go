@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/sajad-dev/eda-architecture/internal/exception"
-	"github.com/sajad-dev/eda-architecture/internal/helpers"
+	"github.com/sajad-dev/eda-architecture/internal/app/exception"
+	"github.com/sajad-dev/eda-architecture/internal/app/helpers"
 )
 
 func Run() {

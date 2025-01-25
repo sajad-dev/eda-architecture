@@ -3,7 +3,7 @@ package command
 import (
 	"fmt"
 
-	"github.com/sajad-dev/eda-architecture/internal/migration"
+	"github.com/sajad-dev/eda-architecture/internal/database/migration"
 )
 
 func Migrate(args []string) {

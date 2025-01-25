@@ -3,7 +3,7 @@ package validation
 import (
 	"fmt"
 
-	"github.com/sajad-dev/eda-architecture/internal/model"
+	"github.com/sajad-dev/eda-architecture/internal/database/model"
 )
 
 

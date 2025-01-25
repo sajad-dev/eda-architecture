@@ -6,7 +6,7 @@ import (
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/sajad-dev/eda-architecture/internal/exception"
+	"github.com/sajad-dev/eda-architecture/internal/app/exception"
 )
 
 var Database *sql.DB

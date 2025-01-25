@@ -9,7 +9,7 @@ import (
 	"runtime"
 
 	"github.com/fatih/color"
-	"github.com/sajad-dev/eda-architecture/internal/helpers"
+	"github.com/sajad-dev/eda-architecture/internal/app/helpers"
 )
 
 type CustomError struct {

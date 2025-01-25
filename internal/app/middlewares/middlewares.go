@@ -3,7 +3,7 @@ package middlewares
 import (
 	"net/http"
 
-	publictypes "github.com/sajad-dev/eda-architecture/internal/public_types"
+	"github.com/sajad-dev/eda-architecture/internal/types"
 )
 
 func (e MiddlewaresType) HandelMiddleware(next http.Handler) http.Handler {
@@ -12,11 +12,11 @@ func (e MiddlewaresType) HandelMiddleware(next http.Handler) http.Handler {
 	})
 }
 
-func finallyHandler(controller publictypes.ControllerType) http.Handler {
+func finallyHandler(controller types.ControllerType) http.Handler {
 	return http.HandlerFunc(controller)
 }
 
-func Handler(middlewares []func(http.Handler) http.Handler, finally publictypes.ControllerType) http.Handler {
+func Handler(middlewares []func(http.Handler) http.Handler, finally types.ControllerType) http.Handler {
 	finally_co := finallyHandler(finally)
 	for i := len(middlewares) - 1; i >= 0; i-- {
 		finally_co = middlewares[i](finally_co)

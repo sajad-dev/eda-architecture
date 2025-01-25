@@ -1,4 +1,4 @@
-package publictypes
+package types
 
 import "net/http"
 

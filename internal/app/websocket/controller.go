@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/sajad-dev/eda-architecture/internal/exception"
+	"github.com/sajad-dev/eda-architecture/internal/app/exception"
 )
 
 func HandlerFunc(w http.ResponseWriter, r *http.Request, ws *Websocket) {

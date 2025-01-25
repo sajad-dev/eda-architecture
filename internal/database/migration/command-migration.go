@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	connectiondb "github.com/sajad-dev/eda-architecture/internal/connection_db"
-	"github.com/sajad-dev/eda-architecture/internal/exception"
+	"github.com/sajad-dev/eda-architecture/internal/app/exception"
+	connectiondb "github.com/sajad-dev/eda-architecture/internal/database/connection_db"
 )
 
 

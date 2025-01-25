@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/sajad-dev/eda-architecture/internal/controllers"
+	"github.com/sajad-dev/eda-architecture/internal/app/controllers"
 )
 
 type TestFunc func() (string, string)

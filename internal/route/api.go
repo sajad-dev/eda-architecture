@@ -3,8 +3,8 @@ package api
 import (
 	"net/http"
 
-	"github.com/sajad-dev/eda-architecture/internal/controllers"
-	publictypes "github.com/sajad-dev/eda-architecture/internal/public_types"
+	"github.com/sajad-dev/eda-architecture/internal/app/controllers"
+	publictypes "github.com/sajad-dev/eda-architecture/internal/types"
 )
 
 type MiddlewaresListType []func(http.Handler) http.Handler

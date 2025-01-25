@@ -6,9 +6,9 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/sajad-dev/eda-architecture/internal/exception"
-	"github.com/sajad-dev/eda-architecture/internal/middlewares"
-	publictypes "github.com/sajad-dev/eda-architecture/internal/public_types"
+	"github.com/sajad-dev/eda-architecture/internal/app/exception"
+	"github.com/sajad-dev/eda-architecture/internal/app/middlewares"
+	"github.com/sajad-dev/eda-architecture/internal/types"
 )
 
 type methodType string
@@ -81,7 +81,7 @@ func GetDYRoute(pattern string) ([]string, string) {
 	}
 	return slice_pat, rou
 }
-func Route(pattern string, method methodType, controller publictypes.ControllerType, middlewaresList []func(http.Handler) http.Handler) {
+func Route(pattern string, method methodType, controller types.ControllerType, middlewaresList []func(http.Handler) http.Handler) {
 	sli, route := GetDYRoute(pattern)
 	http.Handle(route, middlewares.ConfigWriterAndReader(CheckMethod(DaynamicRoute(middlewares.Handler(middlewaresList, controller), sli), method)))
 }

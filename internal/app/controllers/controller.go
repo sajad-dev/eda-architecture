@@ -3,9 +3,9 @@ package controllers
 import (
 	"time"
 
-	"github.com/sajad-dev/eda-architecture/internal/exception"
-	"github.com/sajad-dev/eda-architecture/internal/model"
-	"github.com/sajad-dev/eda-architecture/internal/utils"
+	"github.com/sajad-dev/eda-architecture/internal/app/exception"
+	"github.com/sajad-dev/eda-architecture/internal/app/utils"
+	"github.com/sajad-dev/eda-architecture/internal/database/model"
 )
 var StructRegistry = map[string]interface{}{
 }

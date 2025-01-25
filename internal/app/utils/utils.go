@@ -8,8 +8,8 @@ import (
 	"os"
 	"regexp"
 
-	"github.com/sajad-dev/eda-architecture/internal/exception"
-	"github.com/sajad-dev/eda-architecture/internal/helpers"
+	"github.com/sajad-dev/eda-architecture/internal/app/exception"
+	"github.com/sajad-dev/eda-architecture/internal/app/helpers"
 )
 
 func IsValid(str string) bool {
