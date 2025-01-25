@@ -34,3 +34,7 @@ net/http.(*conn).serve(0xc00019a750, {0x7b9c88, 0xc00011d890})
 	/usr/local/go/src/net/http/server.go:2044 +0x5e8
 created by net/http.(*Server).Serve in goroutine 1
 	/usr/local/go/src/net/http/server.go:3290 +0x4b4
+2025/01/25 19:28:49 main.go:67: dial tcp :0: connect: connection refused
+2025/01/25 19:30:31 main.go:67: Error 1046 (3D000): No database selected
+2025/01/25 19:30:34 main.go:67: Error 1046 (3D000): No database selected
+2025/01/25 19:31:04 main.go:67: Error 1146 (42S02): Table 'eda.channels' doesn't exist

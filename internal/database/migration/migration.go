@@ -102,7 +102,6 @@ func (migrate *Migration) HandelUpdate(field string, fieldtype string, collectio
 	if key == "UNI" && strings.Contains(strSlice[x], "UNIQUE") {
 
 		sql_qu := fmt.Sprintf("SELECT DISTINCT COLUMN_NAME, INDEX_NAME   FROM information_schema.statistics  WHERE table_name = '%s'", table)
-		fmt.Println(table)
 		qu, err := connectiondb.Database.Query(sql_qu)
 		exception.Log(err)
 

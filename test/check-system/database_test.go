@@ -7,11 +7,10 @@ import (
 	"slices"
 	"strings"
 
-	// "strings"
 	"testing"
 
 	"github.com/sajad-dev/eda-architecture/internal/database/migration"
-	testutils "github.com/sajad-dev/eda-architecture/internal/test-utils"
+	testutils "github.com/sajad-dev/eda-architecture/internal/test_utils"
 )
 
 func TestMigrationTables(t *testing.T) {

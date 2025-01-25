@@ -18,7 +18,6 @@ func AddChannel(w http.ResponseWriter, r *http.Request) {
 		"secret_key": secret,
 	}, "channels")
 
-	fmt.Println("websocket.ActiveSocket")
 	if websocket.ActiveSocket != nil {
 		websocket.ActiveSocket.AddAddr("/"+public)
 	}

@@ -73,7 +73,6 @@ func Get(selection []string, table string, where []Where_st, order string, asc b
 	}
 	
 	values := make([]interface{}, len(selection))
-	fmt.Println(sql_qu)
 	query, err := connectiondb.Database.Query(sql_qu, arr...)
 	
 	exception.Log(err)

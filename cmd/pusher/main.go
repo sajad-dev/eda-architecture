@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/fatih/color"
@@ -9,15 +10,8 @@ import (
 	connectiondb "github.com/sajad-dev/eda-architecture/internal/database/connection_db"
 	"github.com/sajad-dev/eda-architecture/internal/database/migration"
 	api "github.com/sajad-dev/eda-architecture/internal/route"
-	runserver "github.com/sajad-dev/eda-architecture/internal/run-server"
+	runserver "github.com/sajad-dev/eda-architecture/internal/run_server"
 )
-
-// func main() {
-// 	err := godotenv.Load(".env")
-// 	exception.Log(err)
-// 	adrr := []websocket.Addr{}
-// 	websocket.Handler(adrr)
-// }
 
 func main() {
 
@@ -28,7 +22,7 @@ func main() {
 		command.Handel(os.Args)
 		return
 	}
-	color.Blue("Adress Local : http://127.0.0.1:8000")
+	color.Blue(fmt.Sprintf("Address Local : http://127.0.0.1:%s", os.Getenv("PORT")))
 
 	websocket.Handler()
 	migration.Handel()
