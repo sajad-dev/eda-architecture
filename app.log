@@ -1,60 +1,36 @@
-2025/01/25 14:53:45 main.go:67: Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ORDER BY id ASC' at line 1
-2025/01/25 14:53:45 server.go:3418: http: panic serving 127.0.0.1:34712: Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ORDER BY id ASC' at line 1
-
-goroutine 38 [running]:
+2025/01/25 17:00:34 server.go:3418: http: panic serving 127.0.0.1:45352: parsing "Zo8GJz3okaEWIB3W": at offset 0: host/path missing /
+goroutine 25 [running]:
 net/http.(*conn).serve.func1()
 	/usr/local/go/src/net/http/server.go:1903 +0xbe
-panic({0x6cda20?, 0xc000186c60?})
+panic({0x6e4320?, 0xc000148ea0?})
 	/usr/local/go/src/runtime/panic.go:770 +0x132
-log.Panicln({0xc0000c9740?, 0x5?, 0xc0001c6150?})
-	/usr/local/go/src/log/log.go:446 +0x5a
-github.com/sajad-dev/eda-architecture/internal/app/exception.Log({0x7b7d80, 0xc0001a64c8})
-	/home/sajad/Documents/Programing/pusher/internal/app/exception/main.go:67 +0xdc
-github.com/sajad-dev/eda-architecture/internal/database/model.Get({0xc00002f988, 0x2, 0x1?}, {0x732c74?, 0xc0001aa000?}, {0xc0000c9908, 0x2, 0x2}, {0x731e28, 0x2}, ...)
-	/home/sajad/Documents/Programing/pusher/internal/database/model/model.go:79 +0x305
-github.com/sajad-dev/eda-architecture/internal/app/websocket.checkPrivateKey({0xc000188320, 0x10}, {0xc00018a285, 0x10})
-	/home/sajad/Documents/Programing/pusher/internal/app/websocket/utils.go:11 +0x1e5
-github.com/sajad-dev/eda-architecture/internal/app/websocket.HandlerFunc({0x7b95b8?, 0xc0001ae1c0?}, 0xc0001ac120, 0xc000182000)
-	/home/sajad/Documents/Programing/pusher/internal/app/websocket/controller.go:16 +0x1e6
-github.com/sajad-dev/eda-architecture/internal/app/websocket.(*Websocket).Middleware.WebSocketHandler.func1({0x7b95b8?, 0xc0001ae1c0?}, 0xc0000c9b30?)
-	/home/sajad/Documents/Programing/pusher/internal/app/websocket/socket.go:35 +0x25
-net/http.HandlerFunc.ServeHTTP(0xc000180000?, {0x7b95b8?, 0xc0001ae1c0?}, 0x62c2da?)
+net/http.(*ServeMux).register(...)
+	/usr/local/go/src/net/http/server.go:2738
+net/http.(*ServeMux).Handle(0xc00015c240?, {0xc000128980?, 0x0?}, {0x7b7440?, 0xc000124ae0?})
+	/usr/local/go/src/net/http/server.go:2701 +0x56
+github.com/sajad-dev/eda-architecture/internal/app/websocket.(*Websocket).AddAddr(0xc00015c240, {0xc000128980, 0x10})
+	/home/sajad/Documents/Programing/pusher/internal/app/websocket/socket.go:44 +0x54
+github.com/sajad-dev/eda-architecture/internal/app/controllers.AddChannel({0x7b95b8, 0xc00019d0a0}, 0x7b5b30?)
+	/home/sajad/Documents/Programing/pusher/internal/app/controllers/channel-controller.go:22 +0x185
+net/http.HandlerFunc.ServeHTTP(0xc00014d9e0?, {0x7b95b8?, 0xc00019d0a0?}, 0x7b5b30?)
 	/usr/local/go/src/net/http/server.go:2171 +0x29
-net/http.(*ServeMux).ServeHTTP(0x468019?, {0x7b95b8, 0xc0001ae1c0}, 0xc0001ac120)
-	/usr/local/go/src/net/http/server.go:2688 +0x1ad
-net/http.serverHandler.ServeHTTP({0xc000184990?}, {0x7b95b8?, 0xc0001ae1c0?}, 0x6?)
-	/usr/local/go/src/net/http/server.go:3142 +0x8e
-net/http.(*conn).serve(0xc0001a4870, {0x7b9c88, 0xc0001843f0})
-	/usr/local/go/src/net/http/server.go:2044 +0x5e8
-created by net/http.(*Server).Serve in goroutine 20
-	/usr/local/go/src/net/http/server.go:3290 +0x4b4
-2025/01/25 14:54:22 main.go:67: Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ORDER BY id ASC' at line 1
-2025/01/25 14:54:22 server.go:3418: http: panic serving 127.0.0.1:38100: Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ORDER BY id ASC' at line 1
-
-goroutine 22 [running]:
-net/http.(*conn).serve.func1()
-	/usr/local/go/src/net/http/server.go:1903 +0xbe
-panic({0x6cda20?, 0xc000192bd0?})
-	/usr/local/go/src/runtime/panic.go:770 +0x132
-log.Panicln({0xc0000c9740?, 0x5?, 0xc0001ce1c0?})
-	/usr/local/go/src/log/log.go:446 +0x5a
-github.com/sajad-dev/eda-architecture/internal/app/exception.Log({0x7b7d80, 0xc00019e4f8})
-	/home/sajad/Documents/Programing/pusher/internal/app/exception/main.go:67 +0xdc
-github.com/sajad-dev/eda-architecture/internal/database/model.Get({0xc00002f988, 0x2, 0x1?}, {0x732c6e?, 0xc0001cc000?}, {0xc0000c9908, 0x2, 0x2}, {0x731e28, 0x2}, ...)
-	/home/sajad/Documents/Programing/pusher/internal/database/model/model.go:79 +0x30d
-github.com/sajad-dev/eda-architecture/internal/app/websocket.checkPrivateKey({0xc00018e290, 0x10}, {0xc0001a2285, 0x10})
-	/home/sajad/Documents/Programing/pusher/internal/app/websocket/utils.go:11 +0x1e5
-github.com/sajad-dev/eda-architecture/internal/app/websocket.HandlerFunc({0x7b95b8?, 0xc0001b20e0?}, 0xc000150000, 0xc0001a0000)
-	/home/sajad/Documents/Programing/pusher/internal/app/websocket/controller.go:16 +0x1e6
-github.com/sajad-dev/eda-architecture/internal/app/websocket.(*Websocket).Middleware.WebSocketHandler.func1({0x7b95b8?, 0xc0001b20e0?}, 0xc0000c9b30?)
-	/home/sajad/Documents/Programing/pusher/internal/app/websocket/socket.go:35 +0x25
-net/http.HandlerFunc.ServeHTTP(0xc0001861a0?, {0x7b95b8?, 0xc0001b20e0?}, 0x62c2da?)
+github.com/sajad-dev/eda-architecture/internal/route.Route.DaynamicRoute.func1({0x7b95b8, 0xc00019d0a0}, 0xc00014d9e0)
+	/home/sajad/Documents/Programing/pusher/internal/route/route.go:61 +0x2ae
+net/http.HandlerFunc.ServeHTTP(0x6d1260?, {0x7b95b8?, 0xc00019d0a0?}, 0x621212?)
 	/usr/local/go/src/net/http/server.go:2171 +0x29
-net/http.(*ServeMux).ServeHTTP(0x468019?, {0x7b95b8, 0xc0001b20e0}, 0xc000150000)
+github.com/sajad-dev/eda-architecture/internal/route.Route.CheckMethod.func2({0x7b95b8, 0xc00019d0a0}, 0xc00014d9e0)
+	/home/sajad/Documents/Programing/pusher/internal/route/route.go:31 +0x8e
+net/http.HandlerFunc.ServeHTTP(0xc00011da70?, {0x7b95b8?, 0xc00019d0a0?}, 0x734466?)
+	/usr/local/go/src/net/http/server.go:2171 +0x29
+github.com/sajad-dev/eda-architecture/internal/route.Route.ConfigWriterAndReader.func3({0x7b95b8, 0xc00019d0a0}, 0xc00014d9e0)
+	/home/sajad/Documents/Programing/pusher/internal/app/middlewares/middlewares.go:34 +0x107
+net/http.HandlerFunc.ServeHTTP(0x9a44a0?, {0x7b95b8?, 0xc00019d0a0?}, 0x62c2da?)
+	/usr/local/go/src/net/http/server.go:2171 +0x29
+net/http.(*ServeMux).ServeHTTP(0x468019?, {0x7b95b8, 0xc00019d0a0}, 0xc00014d9e0)
 	/usr/local/go/src/net/http/server.go:2688 +0x1ad
-net/http.serverHandler.ServeHTTP({0xc000116630?}, {0x7b95b8?, 0xc0001b20e0?}, 0x6?)
+net/http.serverHandler.ServeHTTP({0xc00011d980?}, {0x7b95b8?, 0xc00019d0a0?}, 0x6?)
 	/usr/local/go/src/net/http/server.go:3142 +0x8e
-net/http.(*conn).serve(0xc000114510, {0x7b9c88, 0xc000184450})
+net/http.(*conn).serve(0xc00019a750, {0x7b9c88, 0xc00011d890})
 	/usr/local/go/src/net/http/server.go:2044 +0x5e8
-created by net/http.(*Server).Serve in goroutine 34
+created by net/http.(*Server).Serve in goroutine 1
 	/usr/local/go/src/net/http/server.go:3290 +0x4b4

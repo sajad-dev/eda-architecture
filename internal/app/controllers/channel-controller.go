@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/sajad-dev/eda-architecture/internal/app/utils"
+	"github.com/sajad-dev/eda-architecture/internal/app/websocket"
 	"github.com/sajad-dev/eda-architecture/internal/database/model"
 )
 
@@ -16,8 +17,14 @@ func AddChannel(w http.ResponseWriter, r *http.Request) {
 		"public_key": public,
 		"secret_key": secret,
 	}, "channels")
+
+	fmt.Println("websocket.ActiveSocket")
+	if websocket.ActiveSocket != nil {
+		websocket.ActiveSocket.AddAddr("/"+public)
+	}
+
 	w.Write([]byte(fmt.Sprintf(`{
-	public_key: %s,
-	secret_key: %s
+	"public_key": "%s",
+	"secret_key": "%s"
 	}`, public, secret)))
 }

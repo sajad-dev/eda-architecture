@@ -6,8 +6,6 @@ import (
 
 )
 
-
-
 func GenerateRandomString(length int) string {
     characters := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     rand.Seed(time.Now().UnixNano()) 

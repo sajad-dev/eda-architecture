@@ -10,6 +10,8 @@ import (
 	"github.com/sajad-dev/eda-architecture/internal/database/model"
 )
 
+var ActiveSocket *Websocket
+
 func NewCustomServeMux() *CustomServeMux {
 	return &CustomServeMux{
 		Mux: http.NewServeMux(),
@@ -36,10 +38,8 @@ func WebSocketHandler(ws *Websocket, handlerFunc func(http.ResponseWriter, *http
 	}
 }
 
-func (ws *Websocket) AddAddr(handlerFunc http.Handler, pattern string) {
-	ws.ServerMux.Mu.Lock()
-	defer ws.ServerMux.Mu.Unlock()
-	ws.ServerMux.Mux.Handle(pattern, handlerFunc)
+func (ws *Websocket) AddAddr(pattern string) {
+	ws.ServerMux.Mux.Handle(pattern, ws.Middleware([]MiddlewareFuncType{}, HandelFuncType(HandlerFunc)))
 }
 
 func (ws *Websocket) RunServer() {
@@ -48,10 +48,11 @@ func (ws *Websocket) RunServer() {
 }
 
 func getAddress() model.GetOutput {
-	return model.Get([]string{"public_key"}, "channels", []model.Where_st{}, "id", true)
+	ou :=  model.Get([]string{"public_key"}, "channels", []model.Where_st{}, "id", true)
+	return ou
 }
 
-func Handler(addrs []Addr) Websocket {
+func Handler() {
 
 	csm := NewCustomServeMux()
 	ws := Websocket{MiddlewareBase: []MiddlewareFuncType{},
@@ -59,11 +60,13 @@ func Handler(addrs []Addr) Websocket {
 		ServerMux:  *csm}
 
 	for _, addr := range getAddress() {
-		ws.AddAddr(ws.Middleware([]MiddlewareFuncType{}, HandelFuncType(HandlerFunc)),
-			"/"+addr["public_key"])
+		ws.AddAddr(
+			"/" + addr["public_key"])
 	}
 
-	ws.RunServer()
+	ActiveSocket = &ws
+	go func() {
+		ws.RunServer()
+	}()
 
-	return ws
 }

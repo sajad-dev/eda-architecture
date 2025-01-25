@@ -35,6 +35,3 @@ func ConfigWriterAndReader(next http.Handler) http.Handler {
 	})
 }
 
-func DaynamicRoute(w http.ResponseWriter, r *http.Request, next http.Handler) {
-
-}

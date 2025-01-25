@@ -30,9 +30,7 @@ func main() {
 	}
 	color.Blue("Adress Local : http://127.0.0.1:8000")
 
-	go func() {
-		websocket.Handler([]websocket.Addr{})
-	}()
+	websocket.Handler()
 	migration.Handel()
 	api.RouteRun()
 
