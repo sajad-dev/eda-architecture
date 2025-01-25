@@ -46,15 +46,6 @@ func (ws *Websocket) RunServer() {
 	exception.Log(err)
 }
 
-func WebServer(ws *Websocket) {
-
-	go func() {
-
-		http.HandleFunc("/add-channel", WebSocketHandler(ws, AddSocketChannel))
-		err := http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("PORT")), nil)
-		exception.Log(err)
-	}()
-}
 
 func Handler(addrs []Addr) Websocket {
 
@@ -68,7 +59,6 @@ func Handler(addrs []Addr) Websocket {
 			addr.Pattern)
 	}
 
-	WebServer(&ws)
 	ws.RunServer()
 
 	return ws
