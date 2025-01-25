@@ -14,9 +14,9 @@ import (
 	"testing"
 	"time"
 
-	testutils "github.com/sajad-dev/go-web-framework/internal/test-utils"
-	"github.com/sajad-dev/go-web-framework/pkg/api"
-	"github.com/sajad-dev/go-web-framework/pkg/controllers"
+	"github.com/sajad-dev/eda-architecture/internal/app/controllers"
+	api "github.com/sajad-dev/eda-architecture/internal/route"
+	testutils "github.com/sajad-dev/eda-architecture/internal/test-utils"
 )
 
 func TestApi(t *testing.T) {

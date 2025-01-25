@@ -4,15 +4,14 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
+	"slices"
 	"strings"
 
 	// "strings"
 	"testing"
 
-	"golang.org/x/exp/slices"
-
-	testutils "github.com/sajad-dev/go-web-framework/internal/test-utils"
-	"github.com/sajad-dev/go-web-framework/pkg/migration"
+	"github.com/sajad-dev/eda-architecture/internal/database/migration"
+	testutils "github.com/sajad-dev/eda-architecture/internal/test-utils"
 )
 
 func TestMigrationTables(t *testing.T) {
