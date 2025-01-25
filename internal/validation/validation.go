@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/sajad-dev/go-web-framework/pkg/controllers"
+	"github.com/sajad-dev/eda-architecture/internal/controllers"
 )
 
 type TestFunc func() (string, string)

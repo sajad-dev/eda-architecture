@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/sajad-dev/go-web-framework/pkg/exception"
-	"github.com/sajad-dev/go-web-framework/pkg/helpers"
+	"github.com/sajad-dev/eda-architecture/internal/exception"
+	"github.com/sajad-dev/eda-architecture/internal/helpers"
 )
 
 func Run() {

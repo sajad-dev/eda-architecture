@@ -3,7 +3,7 @@ package validation
 import (
 	"fmt"
 
-	"github.com/sajad-dev/go-web-framework/pkg/model"
+	"github.com/sajad-dev/eda-architecture/internal/model"
 )
 
 
