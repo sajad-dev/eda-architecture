@@ -39,7 +39,7 @@ func WebSocketHandler(ws *Websocket, handlerFunc func(http.ResponseWriter, *http
 }
 
 func (ws *Websocket) AddAddr(pattern string) {
-	ws.ServerMux.Mux.Handle("/app"+pattern, ws.Middleware([]MiddlewareFuncType{}, HandelFuncType(HandlerFunc)))
+	ws.ServerMux.Mux.Handle(pattern, ws.Middleware([]MiddlewareFuncType{}, HandelFuncType(HandlerFunc)))
 }
 
 func (ws *Websocket) RunServer() {
