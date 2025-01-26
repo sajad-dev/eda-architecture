@@ -17,7 +17,7 @@ type ApiType struct {
 
 var RouteList = []ApiType{
 	{
-		Pattern:     "/add-channel",
+		Pattern:     "/api/create-key",
 		Method:      "POST",
 		Controller:  controllers.AddChannel,
 		Middlewares: MiddlewaresListType{},
