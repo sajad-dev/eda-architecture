@@ -1,7 +1,7 @@
 package migration
 
 var ArrMigrations = []*Migrate{
-	&Migrate{
+	{
 		Table:     "channels",
 		Function: ChannelMigration,
 	},

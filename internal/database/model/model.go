@@ -130,7 +130,7 @@ func Update(data map[string]string, table string, where [2]string) {
 	value := []string{}
 	arr := []any{}
 	for ke, val := range data {
-		value = append(value, fmt.Sprintf("%s= ?", ke, val))
+		value = append(value, fmt.Sprintf("%s= ?", ke))
 		arr = append(arr, val)
 	}
 	value_str := strings.Join(value, " , ")

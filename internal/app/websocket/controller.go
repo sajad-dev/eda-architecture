@@ -11,7 +11,7 @@ func HandlerFunc(w http.ResponseWriter, r *http.Request, ws *Websocket) {
 	exception.Log(err)
 	secret := r.Header.Get("secret_key")
 
-	// defer conn.Close()
+
 
 	ws.ServerMux.Mu.Lock()
 	ws.Subscriber[r.URL.Path] = append(ws.Subscriber[r.URL.Path], conn)
@@ -27,13 +27,13 @@ func HandlerFunc(w http.ResponseWriter, r *http.Request, ws *Websocket) {
 			}
 		}
 	}
-	if !checkPrivateKey(secret, r.URL.Path[1:]) {
+	if !checkPrivateKey(secret, r.URL.Path[5:]) {
 		return
 	}
 	go func() {
 		defer conn.Close()
 		for {
-
+			
 			_, msg, err := conn.ReadMessage()
 			if err != nil {
 				exception.Log(err)
@@ -46,7 +46,9 @@ func HandlerFunc(w http.ResponseWriter, r *http.Request, ws *Websocket) {
 			for _, subscriber := range ws.Subscriber[r.URL.Path] {
 				if subscriber != conn {
 					err := subscriber.WriteMessage(1, msg)
-					exception.Log(err)
+					if err!= nil {
+						
+					}
 				}
 			}
 		}

@@ -7,7 +7,7 @@ type CommandType struct {
 }
 
 var command = []CommandType{
-	CommandType{Handler: Migrate,Commad: "migration"},
+	{Handler: Migrate,Commad: "migration"},
 }
 
 func Handel(args []string) {
