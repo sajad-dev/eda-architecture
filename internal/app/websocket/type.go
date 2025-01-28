@@ -10,10 +10,15 @@ import (
 type HandelFuncType func(w http.ResponseWriter, r *http.Request, ws *Websocket)
 type MiddlewareFuncType func(http.Handler) http.Handler
 
+type Message struct {
+	Event   string `json"event"`
+	Channel string `json"channel"`
+	Payload string `json"payload"`
+}
+
 type Websocket struct {
-	MiddlewareBase []MiddlewareFuncType
-	ServerMux      CustomServeMux
-	Subscriber     map[string][]*websocket.Conn
+	ServerMux CustomServeMux
+	Clients   map[string]map[string][]*websocket.Conn
 }
 
 type Addr struct {

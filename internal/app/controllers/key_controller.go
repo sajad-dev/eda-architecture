@@ -9,7 +9,7 @@ import (
 	"github.com/sajad-dev/eda-architecture/internal/database/model"
 )
 
-func AddChannel(w http.ResponseWriter, r *http.Request) {
+func CreateKey(w http.ResponseWriter, r *http.Request) {
 	public := utils.GenerateRandomString(16)
 	secret := utils.GenerateRandomString(16)
 

@@ -19,7 +19,7 @@ var RouteList = []ApiType{
 	{
 		Pattern:     "/api/create-key",
 		Method:      "POST",
-		Controller:  controllers.AddChannel,
+		Controller:  controllers.CreateKey,
 		Middlewares: MiddlewaresListType{},
 	},
 }
