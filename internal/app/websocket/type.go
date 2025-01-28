@@ -13,7 +13,7 @@ type MiddlewareFuncType func(http.Handler) http.Handler
 type Message struct {
 	Event   string `json"event"`
 	Channel string `json"channel"`
-	Payload string `json"payload"`
+	Data string `json"data"`
 }
 
 type Websocket struct {
