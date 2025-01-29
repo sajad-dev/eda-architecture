@@ -19,7 +19,7 @@ func CreateKey(w http.ResponseWriter, r *http.Request) {
 	}, "channels")
 
 	if websocket.ActiveSocket != nil {
-		websocket.ActiveSocket.AddAddr("/"+public)
+		websocket.ActiveSocket.AddAddr("/app/" + public)
 	}
 
 	w.Write([]byte(fmt.Sprintf(`{

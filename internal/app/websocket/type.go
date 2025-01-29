@@ -11,9 +11,9 @@ type HandelFuncType func(w http.ResponseWriter, r *http.Request, ws *Websocket)
 type MiddlewareFuncType func(http.Handler) http.Handler
 
 type Message struct {
-	Event   string `json"event"`
-	Channel string `json"channel"`
-	Data string `json"data"`
+	Event   string      `json:"event"`
+	Channel string      `json:"channel,omitempty"`
+	Data    interface{} `json:"data"`
 }
 
 type Websocket struct {

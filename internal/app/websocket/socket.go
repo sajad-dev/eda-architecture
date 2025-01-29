@@ -41,7 +41,7 @@ func Handler() {
 
 	for _, addr := range getAddress() {
 		ws.AddAddr(
-			"/" + addr["public_key"])
+			"/app/" + addr["public_key"])
 	}
 
 	ActiveSocket = &ws
