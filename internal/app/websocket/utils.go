@@ -1,14 +1,23 @@
 package websocket
 
 import (
+	"crypto/hmac"
+	"crypto/sha256"
+	"encoding/hex"
+
 	"github.com/gorilla/websocket"
 	"github.com/sajad-dev/eda-architecture/internal/database/model"
 )
 
-func checkPrivateKey(secret string, public string) bool {
+func generateHMACSHA256(secret, message string) string {
+	h := hmac.New(sha256.New, []byte(secret))
+	h.Write([]byte(message))
+	return hex.EncodeToString(h.Sum(nil))
+}
+
+func checkPrivateKey(sin string, public string) bool {
 	ou := model.Get([]string{"public_key", "secret_key"}, "channels", []model.Where_st{
-		{Key: "public_key", Value: public, After: "AND", Operator: "="},
-		{Key: "secret_key", Value: secret, After: "", Operator: "="},
+		{Key: "public_key", Value: public, After: "", Operator: "="},
 	}, "id", true)
 
 	return len(ou) > 0

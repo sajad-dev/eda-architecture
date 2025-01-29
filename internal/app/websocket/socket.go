@@ -36,13 +36,14 @@ func Handler() {
 
 	csm := NewCustomServeMux()
 	ws := Websocket{
-		Clients: map[string]map[string][]*websocket.Conn{},
-		ServerMux:  *csm}
+		Clients:   map[string]map[string][]*websocket.Conn{},
+		ServerMux: *csm}
 
 	for _, addr := range getAddress() {
 		ws.AddAddr(
 			"/app/" + addr["public_key"])
 	}
+	ws.ServerMux.Mux.HandleFunc("/apps/local/events", ws.handleTriggerAPI)
 
 	ActiveSocket = &ws
 	go func() {

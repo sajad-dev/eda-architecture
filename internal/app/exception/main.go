@@ -64,7 +64,7 @@ func Log(err error) {
 	if err != nil {
 		_, file, line, _ := runtime.Caller(1)
 		if !helpers.IfThenElse(os.Getenv("DEBUG") == "true", true, false).(bool) {
-			log.Panicln(err)
+			log.Println(err)
 		} else {
 			erro := fmt.Sprintf("%s - line %d - file %s", err.Error(), line, file)
 			color.Red(erro)
