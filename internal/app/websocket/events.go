@@ -1,7 +1,6 @@
 package websocket
 
 import (
-
 	"github.com/gorilla/websocket"
 	"github.com/sajad-dev/eda-architecture/internal/app/exception"
 )
@@ -18,15 +17,17 @@ func (ws *Websocket) eventHandel(msg chan MessageChan) {
 }
 
 func (ws *Websocket) publish(public_key string, message TriggerBody) {
-	for _, sub := range ws.Clients[public_key][message.Channel] {
-		response := Message{
-			Event:   message.Name,
-			Channel: message.Channel,
-			Data:    message.Data,
-		}
+	for _, channel := range message.Channels {
+		for _, sub := range ws.Clients[public_key][channel] {
+			response := Message{
+				Event:   message.Name,
+				Channel: channel,
+				Data:    message.Data,
+			}
 
-		err := sub.WriteJSON(response)
-		exception.Log(err)
+			err := sub.WriteJSON(response)
+			exception.Log(err)
+		}
 	}
 }
 

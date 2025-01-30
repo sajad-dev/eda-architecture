@@ -11,9 +11,10 @@ type HandelFuncType func(w http.ResponseWriter, r *http.Request, ws *Websocket)
 type MiddlewareFuncType func(http.Handler) http.Handler
 
 type TriggerBody struct {
-	Name    string      `json:"name"`
-	Channel string      `json:"channel,omitempty"`
-	Data    interface{} `json:"data"`
+	Name     string      `json:"name"`
+	Channel  string      `json:"channel,omitempty"`
+	Channels []string    `json:"channels,omitempty"`
+	Data     interface{} `json:"data"`
 }
 
 type Message struct {

@@ -53,12 +53,15 @@ func (ws *Websocket) HandlerFunc(w http.ResponseWriter, r *http.Request) {
 
 func (ws *Websocket) handleTriggerAPI(w http.ResponseWriter, r *http.Request) {
 
-
 	var message TriggerBody
-	
+
 	err := json.NewDecoder(r.Body).Decode(&message)
 	exception.Log(err)
-	
+
+	if len(message.Channel) != 0 {
+		message.Channels = append(message.Channels, message.Channel)
+	}
+
 	queryParams := r.URL.Query()
 
 	if !checkPrivateKey(r.URL.Query(), r.URL.Path, r.Method) {
