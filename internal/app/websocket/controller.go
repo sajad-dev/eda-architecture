@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"regexp"
 
-
 	"github.com/sajad-dev/eda-architecture/internal/app/exception"
 	"github.com/sajad-dev/eda-architecture/internal/app/response"
 )
@@ -54,11 +53,12 @@ func (ws *Websocket) HandlerFunc(w http.ResponseWriter, r *http.Request) {
 
 func (ws *Websocket) handleTriggerAPI(w http.ResponseWriter, r *http.Request) {
 
-	var message TriggerBody
 
+	var message TriggerBody
+	
 	err := json.NewDecoder(r.Body).Decode(&message)
 	exception.Log(err)
-
+	
 	queryParams := r.URL.Query()
 
 	if !checkPrivateKey(r.URL.Query(), r.URL.Path, r.Method) {
