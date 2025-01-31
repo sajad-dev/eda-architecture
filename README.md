@@ -73,6 +73,8 @@ For sample code and further details, you can visit the following repository:
 
 https://github.com/sajad-dev/eda-architecture-sample 🔗
 
+https://github.com/sajad-dev/eda-architecture-sample-laravel 🔗
+
 ## Author 🖋️
 
 Mohammad Sajad Poorajam / محمد سجاد پورعجم
