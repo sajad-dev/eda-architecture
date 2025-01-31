@@ -15,26 +15,45 @@ This project is written in Go and acts similarly to the Pusher service. The proj
 #### `POST /api/create-key`
 This endpoint provides the public key and secret key.
 #### Response:
-```bash
+```json
 {
   "public_key": "your_public_key",
   "secret_key": "your_secret_key"
 }
 ```
 
-## WebSocket Connection 🔌
+## Pusher Connection 🔌
 
-When connecting to WebSocket, you need to send the public key in the route and the secret key in the header.
+When connecting to Pusher, you need to send the public key in the route and the secret key in the header.
 
-#### WebSocket Connection:
+#### Pusher Connection:
 
--   Route: Send the public key in the route when establishing the WebSocket connection. For example, the WebSocket connection URL will look like this:
+-   Route: Send the public key in the route when establishing the Pusher connection. For example, the Pusher connection URL will look like this:
 ```bash
 ws://ip:port/public_key
 ```
--   Header: Send the secret key in the header under the field secret_key.
 
-**🚨 Important: Ensure that the secret key is only sent in requests where it's necessary. For example, it should only be included in the WebSocket connection request.**
+### Connecting to Pusher WebSocket in Frontend (JavaScript) 🌍
+```js
+// 🚀 Import the Pusher library
+import Pusher from 'pusher-js';
+
+// 🔑 Initialize Pusher WebSocket
+const pusher = new Pusher('PUBLIC_KEY', {  // Replace with your public key
+    wsHost: IP,  // Running on localhost
+    wsPort: PORT,  // Port where WebSocket is running
+});
+
+// 🎯 Subscribe to a specific channel
+const channel = pusher.subscribe(CHANNEL_NAME);
+
+// 👂 Listen for a specific event
+channel.bind(EVENT_NAME, function(data) {
+    console.log('📩 Data received:', data);
+})
+```
+
+**🚨 Important: Ensure that the secret key is only sent in requests where it's necessary. For example, it should only be included in the Pusher connection request.**
 
 
 ## Setup 🛠️
