@@ -8,24 +8,29 @@ import (
 	connectiondb "github.com/sajad-dev/eda-architecture/internal/database/connection_db"
 )
 
+// Sqltype represents a custom SQL type
 type Sqltype string
 
+// Where_st represents a condition in a SQL WHERE clause
 type Where_st struct {
-	Key      string
-	Value    string
-	After    string
-	Operator string
+	Key      string // Column name
+	Value    string // Value to match
+	After    string // Additional condition
+	Operator string // SQL operator (e.g., '=', '<', '>')
 }
 
+// GetOutput defines a type for query result sets
 type GetOutput []map[string]string
 
+// getStar returns a selection clause for SQL queries
 func getStar(selection []string) string {
 	if len(selection) == 0 {
-		return fmt.Sprintf("*")
+		return fmt.Sprintf("*") // Select all columns if none are specified
 	}
-	return fmt.Sprintf("%s", strings.Join(selection, ","))
+	return fmt.Sprintf("%s", strings.Join(selection, ",")) // Join selected columns
 }
 
+// getWhere constructs the WHERE clause of a SQL query
 func getWhere(where []Where_st) string {
 	str := ""
 
@@ -35,9 +40,9 @@ func getWhere(where []Where_st) string {
 	return str
 }
 
+// getOrder constructs an ORDER BY clause
 func getOrder(by string, asc bool) string {
-	str := ""
-	str += fmt.Sprintf("ORDER BY %s ", by)
+	str := fmt.Sprintf("ORDER BY %s ", by)
 	if asc {
 		str += "ASC"
 	} else {
@@ -46,16 +51,17 @@ func getOrder(by string, asc bool) string {
 	return str
 }
 
+// Where generates a WHERE clause from a slice of conditions
 func Where(where []Where_st) string {
-	str := getWhere(where)
-
-	return str
+	return getWhere(where)
 }
 
+// Selection constructs a SELECT SQL query
 func Selection(selection []string, table string) string {
 	return fmt.Sprintf("SELECT %s FROM %s ", getStar(selection), table)
 }
 
+// Get executes a SELECT query with optional filtering and ordering
 func Get(selection []string, table string, where []Where_st, order string, asc bool) GetOutput {
 	sql_qu := Selection(selection, table)
 
@@ -105,7 +111,7 @@ func Get(selection []string, table string, where []Where_st, order string, asc b
 	return outputList
 }
 
-// l
+// Insert adds a new record to the specified table
 func Insert(data map[string]string, table string) {
 	value := []any{}
 	key := []string{}
@@ -126,6 +132,7 @@ func Insert(data map[string]string, table string) {
 	exception.Log(err)
 }
 
+// Update modifies an existing record in the specified table
 func Update(data map[string]string, table string, where [2]string) {
 	value := []string{}
 	arr := []any{}
@@ -140,6 +147,7 @@ func Update(data map[string]string, table string, where [2]string) {
 	exception.Log(err)
 }
 
+// Delete removes a record from the specified table
 func Delete(table string, where [2]string) {
 	sql_qu := fmt.Sprintf("DELETE FROM %s WHERE %s = ?", table, where[0])
 
