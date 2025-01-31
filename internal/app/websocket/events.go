@@ -4,6 +4,7 @@ import (
 	"github.com/gorilla/websocket"
 	"github.com/sajad-dev/eda-architecture/internal/app/exception"
 )
+
 // eventHandel processes WebSocket events asynchronously
 func (ws *Websocket) eventHandel(msg chan MessageChan) {
 	select {

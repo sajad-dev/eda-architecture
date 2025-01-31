@@ -13,7 +13,7 @@ import (
 )
 
 // generateHMACSHA256 generates an HMAC-SHA256 signature using a secret key
-func generateHMACSHA256(secret, message string) string {
+func generateHMACSHA256(secret string, message string) string {
 	h := hmac.New(sha256.New, []byte(secret)) // Create a new HMAC instance
 	h.Write([]byte(message)) // Write the message to the HMAC instance
 	return hex.EncodeToString(h.Sum(nil)) // Return the hexadecimal representation of the signature
@@ -23,7 +23,6 @@ func generateHMACSHA256(secret, message string) string {
 func checkPrivateKey(queryParams url.Values, path string, method string) bool {
 	auth_signature := queryParams.Get("auth_signature") // Extract the provided auth signature
 	delete(queryParams, "auth_signature") // Remove the auth signature from query parameters
-
 	var keys []string
 	for key := range queryParams {
 		keys = append(keys, key) // Collect all query parameter keys
@@ -44,7 +43,6 @@ func checkPrivateKey(queryParams url.Values, path string, method string) bool {
 	ou := model.Get([]string{"public_key", "secret_key"}, "channels", []model.Where_st{
 		{Key: "public_key", Value: queryParams.Get("auth_key"), After: "", Operator: "="},
 	}, "id", true)
-
 	// Generate expected signature using the secret key
 	expectedSignature := generateHMACSHA256(ou[0]["secret_key"], stringToSign.String())
 

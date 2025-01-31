@@ -13,7 +13,7 @@ import (
 // and listens for incoming messages.
 func (ws *Websocket) HandlerFunc(w http.ResponseWriter, r *http.Request) {
 	conn, err := Upgrader.Upgrade(w, r, nil) // Upgrade HTTP to WebSocket
-	exception.Log(err) // Log any errors
+	exception.Log(err)                       // Log any errors
 
 	ws.CountConn++ // Increment the connection counter
 
@@ -56,7 +56,6 @@ func (ws *Websocket) HandlerFunc(w http.ResponseWriter, r *http.Request) {
 // handleTriggerAPI processes API requests to trigger WebSocket messages
 func (ws *Websocket) handleTriggerAPI(w http.ResponseWriter, r *http.Request) {
 	var message TriggerBody
-
 	err := json.NewDecoder(r.Body).Decode(&message) // Decode incoming JSON request
 	exception.Log(err)
 
@@ -64,7 +63,6 @@ func (ws *Websocket) handleTriggerAPI(w http.ResponseWriter, r *http.Request) {
 	if len(message.Channel) != 0 {
 		message.Channels = append(message.Channels, message.Channel)
 	}
-
 	queryParams := r.URL.Query() // Retrieve query parameters
 
 	// Validate the private key before proceeding
