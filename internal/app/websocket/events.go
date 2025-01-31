@@ -4,7 +4,7 @@ import (
 	"github.com/gorilla/websocket"
 	"github.com/sajad-dev/eda-architecture/internal/app/exception"
 )
-
+// eventHandel processes WebSocket events asynchronously
 func (ws *Websocket) eventHandel(msg chan MessageChan) {
 	select {
 	case message := <-msg:
@@ -12,10 +12,10 @@ func (ws *Websocket) eventHandel(msg chan MessageChan) {
 		case "pusher:subscribe":
 			ws.subscribe(message.public_key, message.connection, *message.message)
 		}
-
 	}
 }
 
+// publish sends messages to all subscribed clients
 func (ws *Websocket) publish(public_key string, message TriggerBody) {
 	for _, channel := range message.Channels {
 		for _, sub := range ws.Clients[public_key][channel] {
@@ -31,8 +31,8 @@ func (ws *Websocket) publish(public_key string, message TriggerBody) {
 	}
 }
 
+// subscribe adds a client to a specified channel for WebSocket communication
 func (ws *Websocket) subscribe(public_key string, conn *websocket.Conn, message Message) {
-
 	if ws.Clients[public_key] == nil {
 		ws.Clients[public_key] = make(map[string][]*websocket.Conn)
 	}
